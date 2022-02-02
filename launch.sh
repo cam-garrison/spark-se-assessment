@@ -9,5 +9,5 @@ gunicorn project.server.__init__:app
 # flask run --host=0.0.0.0 --port=$PORT
 
 # python project/server/__init__.py db upgrade
-#flask run --host=0.0.0.0 --port=5000
+# flask run --host=0.0.0.0 --port=?$PORT
 # flask run 

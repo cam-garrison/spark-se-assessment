@@ -6,6 +6,7 @@ from project.server.models import User
 
 auth_blueprint = Blueprint('auth', __name__)
 
+
 class RegisterAPI(MethodView):
     """
     User Registration Resource
@@ -20,7 +21,8 @@ class RegisterAPI(MethodView):
 
     def post(self):
         # get the post data
-        post_data = request.get_json(); print(request)
+        post_data = request.get_json()
+        print(request)
         # check if user already exists
         user = User.query.filter_by(email=post_data.get('email')).first()
         if not user:
@@ -38,7 +40,7 @@ class RegisterAPI(MethodView):
                 responseObject = {
                     'status': 'success',
                     'message': 'Successfully registered.',
-                    'auth_token': User.decode_auth_token(auth_token) # debugged the decoding step.
+                    'auth_token': auth_token
                 }
                 return make_response(jsonify(responseObject)), 201
             except Exception as e:
@@ -59,19 +61,19 @@ class IndexAPI(MethodView):
     """
     User List resource
     """
+
     def get(self):
         users = User.query.all()
         registered_users = {}
         for user in users:
-            registered_users[user.id] = {'admin': user.admin, 'email':user.email, 
-                                        'registered_on': str(user.registered_on)}
+            registered_users[user.id] = {'admin': user.admin, 'email': user.email,
+                                         'registered_on': str(user.registered_on)}
 
         responseObject = {
             'status': 'success',
             'users': registered_users
-        }  
+        }
         return make_response(jsonify(responseObject)), 201
-
 
 
 # define the API resources
